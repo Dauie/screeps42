@@ -16,6 +16,10 @@ module.exports = {
 			else if (creep.transfer(Game.spawns.spawn) == ERR_FULL) {
 				creep.drop(RESOURCE_ENERGY, creep.carryCapacity)
 			}
+		if (creep.ticksToLive < 150){
+		    Game.spawns.spawn.renewCreep(creep);
+		}
+		    
         }
         else {
 

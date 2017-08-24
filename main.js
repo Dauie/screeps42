@@ -4,6 +4,7 @@ var roleHarvester = require('roleHarvester');
 var roleUpgrader = require('roleUpgrader');
 var roleBuilder = require('roleBuilder');
 var daemonSpawn = require('daemonSpawn');
+var roleFixer = require('roleFixer');
 
 // Establish our gameloop
 module.exports.loop = function() {
@@ -28,6 +29,9 @@ module.exports.loop = function() {
 		}
 		else if (Game.creeps[i].memory.role == 'builder'){
 			roleBuilder.run(Game.creeps[i]);
+		}
+		else if (Game.creeps[i].memory.role == 'fixer'){
+			roleFixer.run(Game.creeps[i]);
 		}
 	}
 }

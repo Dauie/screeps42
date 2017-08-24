@@ -9,6 +9,11 @@ module.exports = {
         else if (creep.memory.working == false && creep.carry.energy == creep.carryCapacity) {
             creep.memory.working = true;
         }
+        if (creep.ticksToLive < 200 && creep.memory.working == false){
+		    if (Game.spawns.spawn.renewCreep(creep) == ERR_NOT_IN_RANGE){
+		        creep.moveTo(Game.spawns.spawn)
+		    }
+        }
         if (creep.memory.working == true) {
             if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
