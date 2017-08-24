@@ -12,9 +12,13 @@ module.exports = {
         if (creep.memory.working == true) {
             if (creep.transfer(Game.spawns.spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(Game.spawns.spawn);
-            }
+			}
+			else if (creep.transfer(Game.spawns.spawn) == ERR_FULL) {
+				creep.drop(RESOURCE_ENERGY, creep.carryCapacity)
+			}
         }
         else {
+
             var source = creep.pos.findClosestByPath(FIND_SOURCES);
             if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);

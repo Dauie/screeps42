@@ -1,41 +1,33 @@
+
+// Include our various roleFiles
 var roleHarvester = require('roleHarvester');
 var roleUpgrader = require('roleUpgrader');
+var roleBuilder = require('roleBuilder');
+var daemonSpawn = require('daemonSpawn');
 
+// Establish our gameloop
 module.exports.loop = function() {
-
-	//clear memory
+	
+	// Clear memory
 	for(let i in Memory.creeps){
 		if (Game.creeps[i] == undefined){
 			delete Memory.creeps[i]
 		}
 	}
-
-	//Figure out how many creeps we have, and their type
-	var harvesters = [];
-	var upgraders = [];
-	for(var i in Game.creeps) {
-		if(Game.creeps[i].memory.role == 'harvester') {
-			harvesters.push(Game.creeps[i]);
-		}
-		else if (Game.creeps[i].memory.role == 'upgrader'){
-			upgraders.push(Game.creeps[i]);
-		}
-	}
-
+	
 	//If we have lost creeps, replenish them
-	if (harvesters.length < 10){
-		Game.spawns.spawn.createCreep([WORK, WORK, CARRY, MOVE], undefined, {role: 'harvester', working: false});
-	}
-	else if (upgraders.length < 5){
-		Game.spawns.spawn.createCreep([WORK, CARRY, MOVE, MOVE], undefined, {role: 'upgrader', working: false});
-	}
-
+	daemonSpawn.run();
+	
+	// Dispatch varying creeps. 
 	for (var i in Game.creeps){
 		if(Game.creeps[i].memory.role == 'harvester') {
 			roleHarvester.run(Game.creeps[i]);
 		}
 		else if (Game.creeps[i].memory.role == 'upgrader'){
 			roleUpgrader.run(Game.creeps[i]);
+		}
+		else if (Game.creeps[i].memory.role == 'builder'){
+			roleBuilder.run(Game.creeps[i]);
 		}
 	}
 }
