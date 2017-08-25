@@ -1,4 +1,7 @@
 //Game.spawns.spawn.createCreep([WORK,CARRY,MOVE,MOVE])
+
+var daemonRoads = require('daemonRoads');
+
 module.exports = {
     
     run: function(creep){
@@ -14,8 +17,7 @@ module.exports = {
         if (creep.memory.working == true) {
 			
 			//debugging to get proper destination
-			var destination = this.findSpawnExtension(creep);
-			
+			var destination = this.findSpawnOrExtension(creep);
 			response = creep.transfer(destination, RESOURCE_ENERGY)
 			if (response = ERR_NOT_IN_RANGE)
 				creep.moveTo(destination)
@@ -27,22 +29,35 @@ module.exports = {
 			}
 		}
         else {
-            var targets = [];
-			if (creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES))
-				targets.push(creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES));
-			if (creep.pos.findClosestByPath(FIND_SOURCES))
-				targets.push(creep.pos.findClosestByPath(FIND_SOURCES));
-			var source = creep.pos.findClosestByPath(targets);
-			if (creep.pickup(source) == ERR_NOT_IN_RANGE)
-					creep.moveTo(source);
-			else{
-            	if (creep.harvest(source) == ERR_NOT_IN_RANGE)
-            	    creep.moveTo(source);
-			}
+			this.moveToSource(creep);
 		}
+		daemonRoads.harvesterRoads(creep);
+		destination = null;
 	},
 
-	findSpawnExtension: function(creep){
+	moveToSource: function(creep){
+		var targets = [];
+		var possibleDropped = [];
+		var staticSources = [];
+		
+		if (possibleDropped = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES))
+			targets.push(possibleDropped);
+		if (staticSources = creep.pos.findClosestByPath(FIND_SOURCES))
+			targets.push(staticSources);
+		var source = creep.pos.findClosestByPath(targets);
+		if (creep.pickup(source) == ERR_NOT_IN_RANGE)
+			creep.moveTo(source);
+		else{
+			if (creep.harvest(source) == ERR_NOT_IN_RANGE)
+            	    creep.moveTo(source);
+		}
+		targets = null;
+		source = null;
+		possibleDropped = null;
+		staticSources = null;
+	},
+
+	findSpawnOrExtension: function(creep){
 		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
 			filter: (s) => ((s.structureType == STRUCTURE_SPAWN ||
 			s.structureType == STRUCTURE_EXTENSION) &&

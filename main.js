@@ -1,5 +1,5 @@
 
-// Include our various roleFiles
+// Include our various roleFiles and deamons
 var roleHarvester = require('roleHarvester');
 var roleUpgrader = require('roleUpgrader');
 var roleBuilder = require('roleBuilder');

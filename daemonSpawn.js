@@ -5,13 +5,13 @@ var peaceTimeEarlyBuild = {};
 	peaceTimeEarlyBuild["builders"] = 10;
 	peaceTimeEarlyBuild["fixers"] = 10;
 
+var warTimeEarlyBuild = {}
+	
 var totalCreeps = {};
-	totalCreeps["harvesters"] = 0;
-	totalCreeps["upgraders"] = 0;
-	totalCreeps["builders"] = 0;
-	totalCreeps["fixers"] = 0;
-	totalCreeps["total"] = 0;
-
+var average = {};
+//decide on better mins, and a better method of deciding on what to spawn.
+var creepsMin = {};
+	creepsMin["harvesters"] = 7;
 module.exports = {
 
 	getAverage: function(){
@@ -22,7 +22,7 @@ module.exports = {
 		}
 
 		//initalize our average return variable.
-		var average = {};
+		
 		//count our creeps.
 		for(var i in Game.creeps) {
 			if(Game.creeps[i].memory.role == 'harvester') {
@@ -39,16 +39,17 @@ module.exports = {
 			}
 			totalCreeps["total"] +=1;
 		}
-		//debugging
-		for (var i in totalCreeps){
-			console.log(i, totalCreeps[i])
-		}
 		//calculate averages and return.
 		average["harvesters"] = Math.floor(totalCreeps["harvesters"] / totalCreeps["total"] * 100);
 		average["upgraders"] = Math.floor(totalCreeps["upgraders"] / totalCreeps["total"] * 100);
 		average["builders"] = Math.floor(totalCreeps["builders"] / totalCreeps["total"] * 100);
 		average["fixers"] = Math.floor(totalCreeps["fixers"] / totalCreeps["total"] * 100);
 		average["total"] = totalCreeps["total"];
+		
+		//keep your eyes on it.
+		for (var i in totalCreeps)
+			console.log(i, totalCreeps[i]);
+
 		return(average);
 	},
 
@@ -58,26 +59,22 @@ module.exports = {
 		var averages = {};
 		averages = this.getAverage();
 	
-		for (var i in averages){
-			console.log(i, averages[i])
-		}
-		console.log(averages)
 		Memory.roleAverages = averages;
-		if (averages["harvesters"] < spawnLoadout["harvesters"] ){
+		if (averages["harvesters"] < spawnLoadout["harvesters"] || totalCreeps["harvesters"] < creepsMin["harvesters"]) {
 			Game.spawns.spawn.createCreep([WORK, WORK, CARRY, MOVE], undefined, {role: 'harvester', working: false});
 		}
-		else if (["upgraders"] < spawnLoadout["upgraders"]){
+		else if (averages["upgraders"] < spawnLoadout["upgraders"]){
 			Game.spawns.spawn.createCreep([WORK, CARRY, CARRY, MOVE], undefined, {role: 'upgrader', working: false});
 		}
-		else if (Memory.roleAverages["total"] > 7 && averages["builders"] < spawnLoadout["builders"]){
+		else if (averages["builders"] < spawnLoadout["builders"]){
 			Game.spawns.spawn.createCreep([WORK, CARRY, MOVE, MOVE], undefined, {role: 'builder', working: false});
 		}
-		else if (Memory.roleAverages["total"] > 7 && averages["fixers"] < spawnLoadout["fixers"]){
+		else if (averages["fixers"] < spawnLoadout["fixers"]){
 			Game.spawns.spawn.createCreep([WORK, CARRY, MOVE, MOVE], undefined, {role: 'fixer', working: false})
 		}
-		else {
-			Game.spawns.spawn.createCreep([WORK, CARRY, CARRY, MOVE], undefined, {role: 'harvester', working: false});
-		}
+		//else {
+			//Game.spawns.spawn.createCreep([WORK, CARRY, CARRY, MOVE], undefined, {role: 'harvester', working: false});
+		//}
 	},
 	
 	
