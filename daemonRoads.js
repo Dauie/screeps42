@@ -10,6 +10,11 @@
 module.exports = {
     
     harvesterRoads: function(creep){
-        const position = creep.pos.look();
-    }
+        const look = creep.pos.look();
+        
+        look.forEach(function(lookObject) {
+            if (lookObject.type == LOOK_STRUCTURES &&
+                lookObject[LOOK_STRUCTURES].get) {
+
+                }});
 };
