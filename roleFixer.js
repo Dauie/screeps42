@@ -12,7 +12,7 @@ module.exports ={
 		}
 		else {
 			const target = creep.room.find(FIND_STRUCTURES, {filter: object => object.hits < object.hitsMax});
-			targets.sort((a,b) => a.hits - b.hits);
+			target.sort((a,b) => a.hits - b.hits);
 			if (target.length){
 				if (creep.repair(target[0]) == ERR_NOT_IN_RANGE){
 					creep.moveTo(target[0]);

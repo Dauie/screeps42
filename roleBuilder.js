@@ -1,4 +1,5 @@
 module.exports ={
+	
 	run: function(creep){
 		if (creep.carry.energy == 0){
 			if (creep.ticksToLive < 200){
@@ -6,7 +7,7 @@ module.exports ={
 		            creep.moveTo(Game.spawns.spawn)
 				}
 			}
-			if (Game.spawns.spawn.transferEnergy(creep) === ERR_NOT_IN_RANGE) {
+			if (creep.withdraw(Game.spawns.spawn, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
 				creep.moveTo(Game.spawns.spawn);
 			}
 		}
@@ -23,5 +24,7 @@ module.exports ={
 				}
 			}
 		}
-	}
+	},
+
+
 }
