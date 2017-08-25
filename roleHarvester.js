@@ -12,12 +12,15 @@ module.exports = {
 		//If we are 'working' and have resource, the creep will proceed to its spawn or container
 		//if spawn is full
         if (creep.memory.working == true) {
-			var response = undefined;
-			response = creep.transfer(Game.spawns.spawn, RESOURCE_ENERGY)
+			
+			//debugging to get proper destination
+			var destination = this.findSpawnExtension(creep);
+			
+			response = creep.transfer(destination, RESOURCE_ENERGY)
 			if (response = ERR_NOT_IN_RANGE)
-				creep.moveTo(Game.spawns.spawn)
+				creep.moveTo(destination)
 			else if (response == ERR_FULL){
-				var container = creep.pos.findInRange(FIND_STRUCTURE, 1, {filter: {structureType: STRUCTURE_CONTAINER}});
+				destination = this.findContainer(creep)
 				if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
 					creep.moveTo(container)
 				}
@@ -37,5 +40,22 @@ module.exports = {
             	    creep.moveTo(source);
 			}
 		}
+	},
+
+	findSpawnExtension: function(creep){
+		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+			filter: (s) => ((s.structureType == STRUCTURE_SPAWN ||
+			s.structureType == STRUCTURE_EXTENSION) &&
+			s.energy < s.energyCapacity)
+		});
+		return (structures);
+	},
+
+	findContainer: function(creep){
+		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+			filter: (s) => ((s.structureType == STRUCTURE_CONTAINER) &&
+			s.energy < s.energyCapacity)
+		});
+		return (structures);
 	}
 };
