@@ -6,15 +6,11 @@
  * var mod = require('daemonRoads');
  * mod.thing == 'a thing'; // true
  */
+//STRUCTURE_ROAD
 
 module.exports = {
     
-    harvesterRoads: function(creep){
-        const look = creep.pos.look();
-        
-        look.forEach(function(lookObject) {
-            if (lookObject.type == LOOK_STRUCTURES &&
-                lookObject[LOOK_STRUCTURES].get) {
-
-                }});
-};
+    autoRoads: function(creep){
+        creep.pos.createConstructionSite(STRUCTURE_ROAD);
+	}
+}

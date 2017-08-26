@@ -1,3 +1,5 @@
+var roleHarvester = require('roleHarvester');
+
 module.exports ={
 	
 	run: function(creep){
@@ -7,24 +9,21 @@ module.exports ={
 		            creep.moveTo(Game.spawns.spawn)
 				}
 			}
-			if (creep.withdraw(Game.spawns.spawn, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-				creep.moveTo(Game.spawns.spawn);
-			}
+			roleHarvester.moveToSource(creep);
 		}
 		else {
-			const target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
-			if (target){
-				if (creep.build(target) == ERR_NOT_IN_RANGE){
-					creep.moveTo(target);
-				}
-			}
-			else {
-				if(creep.upgradeController(creep.room.controller) ==  ERR_NOT_IN_RANGE){
-		        	creep.moveTo(creep.room.controller);
-				}
-			}
+			this.doConstruction(creep);
 		}
 	},
-
-
+	
+	doConstruction: function(creep){
+		var target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+		if (target){
+			if (creep.build(target) == ERR_NOT_IN_RANGE){
+				creep.moveTo(target);
+			}
+		}
+		else
+			return (-1);
+		}
 }
