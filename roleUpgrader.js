@@ -8,11 +8,11 @@ module.exports = {
 		roleBase.decideWhatToDo(creep);
 
         //(may be removed) If the upgrader is near spawn and has low TTL, try and renew.
-        if (creep.ticksToLive < 200 && creep.memory.working == false){
-		    if (Game.spawns.spawn.renewCreep(creep) == ERR_NOT_IN_RANGE){
-		        creep.moveTo(Game.spawns.spawn)
-		    }
-        }
+        //if (creep.ticksToLive < 200 && creep.memory.working == false){
+		//    if (Game.spawns.spawn.renewCreep(creep) == ERR_NOT_IN_RANGE){
+		//        creep.moveTo(Game.spawns.spawn)
+		   // }
+        //}
         
         //Now, Either we're "working":upgrading the controller, or we are "Not working": heading back to get resources.
         if (creep.memory.working == true) {
