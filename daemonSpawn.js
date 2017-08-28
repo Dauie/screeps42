@@ -12,7 +12,8 @@ const creepsMinMid = {
 	"harvesters": 7,
 	"upgraders": 3,
 	"builders": 1,
-	"fixers": 1
+	"fixers": 1,
+	"scavenger": 1
 }
 
 //Population percentage loadouts
@@ -35,18 +36,13 @@ const earlyPeaceCreeps = {
 }
 
 const midPeaceCreeps = {
-	//350
-	"harvesters": [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE],
-	//450
-	"upgraders": [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
-	//400
+	"harvesters": [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE],
+	"upgraders": [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
 	"builders": [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
-	//400
 	"fixers": [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
-	//470
+	"scavengers": [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
 	"soldiers": [MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, TOUGH, TOUGH, TOUGH],
-	//450
-	"archers": [MOVE, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK]
+	"archers": [MOVE, MOVE, MOVE, RANGED_ATTACK, RANGED_ATTACK, TOUGH, TOUGH, TOUGH]
 }
 
 var totalCreeps = {};
@@ -92,6 +88,9 @@ module.exports = {
 		}
 		else if (totalCreeps["fixers"] < minLoadout["fixers"] || currentAverages["fixers"] < percentLoadout["fixers"]){
 			Game.spawns.spawn.createCreep(creepLoadout["fixers"], undefined, {role: 'fixer', working: false});
+		}
+		else if (totalCreeps["scavengers"] < minLoadout["scavengers"] || currentAverages["scavengers"] < percentLoadout["scavengers"]){
+			Game.spawns.spawn.createCreep(creepLoadout["scavengers", undefined, {role: 'scavenger', working: false, homeRoom: undefined , targetRoom: undefined}])
 		}
 	},
 
