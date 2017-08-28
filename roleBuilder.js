@@ -1,23 +1,21 @@
 var roleHarvester = require('roleHarvester');
-
+var roleBase = require('roleBase');
+var roleUpgrader = require('roleUpgrader');
 module.exports ={
-	
 	run: function(creep){
-		if (creep.carry.energy == 0){
-			if (creep.ticksToLive < 200){
-		    	if (Game.spawns.spawn.renewCreep(creep) == ERR_NOT_IN_RANGE){
-		            creep.moveTo(Game.spawns.spawn)
-				}
-			}
+		roleBase.decideWhatToDo(creep);
+		if (creep.memory.working == false){
 			roleHarvester.moveToSource(creep);
 		}
 		else {
-			this.doConstruction(creep);
+			if (!(this.doConstruction(creep))){
+				roleUpgrader.upgradeController(creep);
+			}
 		}
 	},
 	
 	doConstruction: function(creep){
-		var target = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+		var target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
 		if (target){
 			if (creep.build(target) == ERR_NOT_IN_RANGE){
 				creep.moveTo(target);

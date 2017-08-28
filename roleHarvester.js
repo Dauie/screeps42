@@ -11,16 +11,14 @@ module.exports = {
 		roleBase.decideWhatToDo(creep);
         if (creep.memory.working == true) {	
 			//debugging to get proper destination
-			var destination = this.findSpawnOrExtension(creep);
-			response = creep.transfer(destination, RESOURCE_ENERGY)
-			if (response = ERR_NOT_IN_RANGE)
-				creep.moveTo(destination)
-			else if (response == ERR_FULL){
-				destination = this.findContainer(creep)
-				if (creep.transfer(destination, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-					creep.moveTo(destination)
+			var destination = [];
+			if (!(destination = this.findSpawn(creep))){
+				if (!(destination = this.findExtension(creep))){
+					destination = this.findContainer(creep);
 				}
 			}
+			if (response = creep.transfer(destination, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
+				creep.moveTo(destination)
 		}
         else {
 			this.moveToSource(creep);
@@ -51,13 +49,27 @@ module.exports = {
 		staticSources = null;
 	},
 
-	findSpawnOrExtension: function(creep){
+	findExtension: function(creep){
 		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-			filter: (s) => ((s.structureType == STRUCTURE_SPAWN ||
-			s.structureType == STRUCTURE_EXTENSION) &&
+			filter: (s) => ((s.structureType == STRUCTURE_EXTENSION) &&
 			s.energy < s.energyCapacity)
 		});
-		return (structures);
+		if (structures)
+			return (structures);
+		else
+			return (-1);
+	},
+
+	findSpawn: function (creep){
+		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+			filter: (s) => ((s.structureType == STRUCTURE_SPAWN) &&
+			s.energy < s.energyCapacity)
+		});
+		if (structures){
+			return (structures);
+		}
+		else
+			return (-1);
 	},
 
 	findContainer: function(creep){
@@ -65,6 +77,9 @@ module.exports = {
 			filter: (s) => ((s.structureType == STRUCTURE_CONTAINER) &&
 			s.energy < s.energyCapacity)
 		});
-		return (structures);
+		if (structures)
+			return (structures);
+		else
+			return (-1);
 	}
 };

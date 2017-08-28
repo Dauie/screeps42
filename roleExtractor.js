@@ -23,12 +23,12 @@ module.exports = {
 			
 			//debugging to get proper destination
 			var destination = this.findSpawnOrExtension(creep);
-			response = creep.transfer(destination, RESOURCE_ENERGY)
+			response = creep.withdraw(destination, RESOURCE_ENERGY)
 			if (response = ERR_NOT_IN_RANGE)
 				creep.moveTo(destination)
 			else if (response == ERR_FULL){
 				destination = this.findContainer(creep)
-				if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+				if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
 					creep.moveTo(container)
 				}
 			}

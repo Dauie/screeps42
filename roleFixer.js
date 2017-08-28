@@ -2,11 +2,6 @@ var roleBuilder = require('roleBuilder');
 module.exports ={
 	run: function(creep){
 		if (creep.carry.energy == 0){
-			if (creep.ticksToLive < 200 && creep.carry.energy == 0){
-		    	if (Game.spawns.spawn.renewCreep(creep) == ERR_NOT_IN_RANGE){
-		        creep.moveTo(Game.spawns.spawn)
-				}
-			}
 			if (Game.spawns.spawn.transferEnergy(creep) === ERR_NOT_IN_RANGE) {
 				creep.moveTo(Game.spawns.spawn);
 			}
