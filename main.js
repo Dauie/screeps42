@@ -5,6 +5,7 @@ var roleUpgrader = require('roleUpgrader');
 var roleBuilder = require('roleBuilder');
 var daemonSpawn = require('daemonSpawn');
 var roleFixer = require('roleFixer');
+var daemonConstruction = require('daemonConstruction');
 
 // Establish our gameloop
 module.exports.loop = function() {
@@ -17,7 +18,9 @@ module.exports.loop = function() {
 	}
 	
 	//If we have lost creeps, replenish them
-	daemonSpawn.run();
+	if (Game.time % 2 == 0)
+		daemonSpawn.run();
+	daemonConstruction.autoExtension();
 	
 	// Dispatch varying creeps. 
 	for (var i in Game.creeps){

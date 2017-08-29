@@ -1,8 +1,18 @@
-var roleHarvester = require('roleHarvester');
-var roleBase = require('roleBase');
-var roleUpgrader = require('roleUpgrader');
-module.exports ={
+/*
+ * Module code goes here. Use 'module.exports' to export things:
+ * module.exports.thing = 'a thing';
+ *
+ * You can import it from another modules like this:
+ * var mod = require('roleScavenger');
+ * mod.thing == 'a thing'; // true
+ */
+
+module.exports = {
 	run: function(creep){
+		if (creep.memory.homeRoom = undefined){
+			var name = creep.name;
+			creep.memory.homeRoom = Game.creeps[name].room;
+		}
 		roleBase.decideWhatToDo(creep);
 		if (creep.memory.working == false){
 			roleHarvester.moveToSource(creep);
@@ -24,4 +34,4 @@ module.exports ={
 		else
 			return (-1);
 		}
-}
+};
