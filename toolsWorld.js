@@ -14,7 +14,8 @@ module.exports = {
 
 		for (var i in Game.rooms){
 			if (Game.rooms[i].controller && Game.rooms[i].controller.my == true){
-				roomList.push(i);
+			    if (roomList.includes(i) == false)
+				    roomList.push(i);
 			}
 		}
 		return roomList;

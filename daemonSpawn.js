@@ -27,16 +27,16 @@ const earlyPeacePercent = {
 //Loadouts
 const earlyPeaceCreeps = {
 
-	"harvesters": [WORK, CARRY, CARRY, MOVE, MOVE],
-	"upgraders": [WORK, CARRY, CARRY, MOVE],
-	"builders": [WORK, WORK, CARRY, MOVE],
-	"fixers": [WORK, CARRY, MOVE, MOVE],
+	"harvesters": [WORK, CARRY, CARRY, CARRY, MOVE],
+	"upgraders": [WORK, CARRY, CARRY, MOVE, MOVE],
+	"builders": [WORK, CARRY, CARRY, MOVE, MOVE],
+	"fixers": [WORK, CARRY, MOVE, MOVE, MOVE],
 	"soldiers": [MOVE, MOVE, ATTACK, ATTACK, TOUGH, TOUGH],
 	"archers": [MOVE, MOVE, RANGED_ATTACK, TOUGH, TOUGH]
 }
 
 const midPeaceCreeps = {
-	"harvesters": [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE],
+	"harvesters": [WORK, WORK, CARRY, CARRY, CARRY, MOVE],
 	"upgraders": [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
 	"builders": [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
 	"fixers": [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
