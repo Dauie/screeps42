@@ -1,12 +1,12 @@
 //Game.spawns.spawn.createCreep([WORK,CARRY,MOVE,MOVE])
-var daemonRoads = require('daemonRoads');
+var daemonConstruction = require('daemonConstruction');
 var roleBase = require('roleBase');
 module.exports = {
     
     run: function(creep){
         //decide if we need to change the working status or not.
 		if (creep.memory.designer == true)
-				daemonRoads.autoRoads(creep);
+				daemonConstruction.autoRoads(creep);
 		roleBase.decideWhatToDo(creep);
         if (creep.memory.working == true) {
 			this.upgradeController(creep)

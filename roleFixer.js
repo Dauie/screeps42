@@ -7,8 +7,11 @@ module.exports ={
 			}
 		}
 		else {
+			creep.say("👷");
 			if (!(this.findRepair(creep))){
+				creep.say("⚒️");
 				if (!(roleBuilder.doConstruction(creep))){
+					creep.say("➕");
 					if(creep.upgradeController(creep.room.controller) ==  ERR_NOT_IN_RANGE){
 		        		creep.moveTo(creep.room.controller);
 					}

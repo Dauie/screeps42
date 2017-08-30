@@ -22,7 +22,7 @@ module.exports = {
         if (creep.memory.working == true) {
 			
 			//debugging to get proper destination
-			var destination = this.findSpawnOrExtension(creep);
+			var destination = roleBase.findSpawnOrExtension(creep);
 			response = creep.withdraw(destination, RESOURCE_ENERGY)
 			if (response = ERR_NOT_IN_RANGE)
 				creep.moveTo(destination)

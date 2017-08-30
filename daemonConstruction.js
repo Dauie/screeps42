@@ -31,9 +31,19 @@ module.exports = {
 						Game.rooms[currentRoom].createConstructionSite(x - 3, y, STRUCTURE_EXTENSION);
 					}
 				}
+			}
+		}
+	},
+	//need to work on this.
+	makeOptimalRoads: function(){
+		rooms = toolsWorld.getControlledRooms();
+			for (var room of rooms){
+				console.log(room);
+			}
+		},
 
-		 	}
-		 }
-	}
-
+	autoRoads: function(creep){
+		if (creep.pos.findInRange(STRUCTURE_ROAD,1) == true)
+        	creep.pos.createConstructionSite(STRUCTURE_ROAD);
+	},
 };

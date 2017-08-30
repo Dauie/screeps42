@@ -1,6 +1,6 @@
 //Game.spawns.spawn.createCreep([WORK,CARRY,MOVE,MOVE])
 
-var daemonRoads = require('daemonRoads');
+var daemonConstruction = require('daemonConstruction');
 var roleBase = require('roleBase');
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
         if (creep.memory.working == true) {	
 			//debugging to get proper destination
 			var destination = [];
-			if (!(destination = this.findSpawn(creep))){
+			if (!(destination = roleBase.findSpawn(creep))){
 				if (!(destination = this.findExtension(creep))){
 					destination = this.findContainer(creep);
 				}
@@ -24,7 +24,7 @@ module.exports = {
 			this.moveToSource(creep);
 		}
 		if (creep.memory.designer == true)
-			daemonRoads.autoRoads(creep);
+			daemonConstruction.autoRoads(creep);
 	},
 
 	moveToSource: function(creep){
@@ -36,21 +36,17 @@ module.exports = {
 			targets.push(possibleDropped);
 		if (staticSources = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE))
 			targets.push(staticSources);
-		var source = creep.pos.findClosestByPath(targets);
+		const source = creep.pos.findClosestByPath(targets);
 		if (creep.pickup(source) == ERR_NOT_IN_RANGE)
 			creep.moveTo(source);
 		else{
 			if (creep.harvest(source) == ERR_NOT_IN_RANGE)
             	    creep.moveTo(source);
 		}
-		targets = null;
-		source = null;
-		possibleDropped = null;
-		staticSources = null;
 	},
 
 	findExtension: function(creep){
-		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+		var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
 			filter: (s) => ((s.structureType == STRUCTURE_EXTENSION) &&
 			s.energy < s.energyCapacity)
 		});
@@ -60,20 +56,8 @@ module.exports = {
 			return (-1);
 	},
 
-	findSpawn: function (creep){
-		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-			filter: (s) => ((s.structureType == STRUCTURE_SPAWN) &&
-			s.energy < s.energyCapacity)
-		});
-		if (structures){
-			return (structures);
-		}
-		else
-			return (-1);
-	},
-
 	findContainer: function(creep){
-		var structures = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+		var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
 			filter: (s) => ((s.structureType == STRUCTURE_CONTAINER) &&
 			s.energy < s.energyCapacity)
 		});

@@ -2,26 +2,26 @@ var toolsWorld = require('toolsWorld');
 
 //decide on better mins, and a better method of deciding on what to spawn.
 const creepsMinEarly = {
-	"harvesters": 9,
-	"upgraders": 2,
-	"builders": 3,
-	"fixers": 2
+	"harvesters": 8,
+	"upgraders": 1,
+	"builders": 4,
+	"fixers": 3
 }
 
 const creepsMinMid = {
 	"harvesters": 7,
-	"upgraders": 3,
-	"builders": 1,
-	"fixers": 1,
+	"upgraders": 2,
+	"builders": 2,
+	"fixers": 2,
 	"scavenger": 1
 }
 
 //Population percentage loadouts
 const earlyPeacePercent = {
-	"harvesters": 50,
+	"harvesters": 40,
 	"upgraders": 20,
 	"builders": 20,
-	"fixers": 10
+	"fixers": 20
 }
 	
 //Loadouts
@@ -57,7 +57,7 @@ module.exports = {
 		var creepLoadout = {};
 		//decide on which creep loaout we want.		
 		const rooms = toolsWorld.getControlledRooms();
-		if (toolsWorld.getExtensionAmount(rooms[0]) < 10 || totalCreeps['total'] < 10){
+		if (toolsWorld.getExtensionAmount(rooms[0]) < 6){
 			creepLoadout = earlyPeaceCreeps;
 			minLoadout = creepsMinEarly;
 		}
@@ -68,13 +68,10 @@ module.exports = {
 
 		//decide on which min needs to be used
 
-		//Debugging population
-		// for(var i in currentAverages){
-		// 	console.log(i, currentAverages[i]);
-		// }
-		// for (var i in percentLoadout){
-		// 	console.log(i, percentLoadout[i]);
-		// }
+//		Debugging population
+		for(var i in currentAverages){
+			console.log(i, currentAverages[i]);
+		}
 	
 		//Spawn/Manage Population
 		if (totalCreeps["harvesters"] < minLoadout["harvesters"] || currentAverages["harvesters"] < percentLoadout["harvesters"]) {
@@ -92,6 +89,8 @@ module.exports = {
 		else if (totalCreeps["scavengers"] < minLoadout["scavengers"] || currentAverages["scavengers"] < percentLoadout["scavengers"]){
 			Game.spawns.spawn.createCreep(creepLoadout["scavengers", undefined, {role: 'scavenger', working: false, homeRoom: undefined , targetRoom: undefined}])
 		}
+		else
+			Game.spawns.spawn.createCreep(creepLoadout["harvesters"], undefined, {role: 'harvester', designer: false, working: false});
 	},
 
 	getAverage: function(){
