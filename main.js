@@ -22,7 +22,8 @@ module.exports.loop = function() {
 	//If we have lost creeps, replenish them
 	if (Game.time % 2 == 0)
 		daemonSpawn.run();
-	daemonConstruction.makeOptimalRoads();
+	if (Game.time % 16000 == 0)
+		daemonConstruction.makeOptimalRoads();
 	daemonConstruction.autoExtension();
 	daemonTurret.run();
 	

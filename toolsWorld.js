@@ -21,12 +21,30 @@ module.exports = {
 		return roomList;
 	},
 
+	getSpawns: function(room){
+		var spawns = Game.rooms[room].find(FIND_MY_STRUCTURES, {
+			filter: {structureType: STRUCTURE_SPAWN}})
+		return (spawns);
+	},
+
+	getController: function(room){
+		var controller = Game.rooms[room].find(FIND_MY_STRUCTURES, {
+			filter: {structureType: STRUCTURE_CONTROLLER}})
+		return (controller);
+	},
+
+	getResources: function(room){
+		var resources = Game.rooms[room].find(FIND_SOURCES);
+		return (resources);
+	},
+
 	getExtensionAmount: function(room){
 		var extensions = Game.rooms[room].find(FIND_MY_STRUCTURES, {
 			filter: {structureType: STRUCTURE_EXTENSION}
 		});
 		return (extensions.length);
 	},
+
 
 	getContainerAmount: function(room){
 		var containers = Game.rooms[room].find(FIND_MY_STRUCTURES, {

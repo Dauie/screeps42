@@ -38,12 +38,39 @@ module.exports = {
 	makeOptimalRoads: function(){
 		rooms = toolsWorld.getControlledRooms();
 			for (var room of rooms){
-				console.log(room);
+				var spawns = toolsWorld.getSpawns(room);
+				const controller = toolsWorld.getController(room);
+				var resources = toolsWorld.getResources(room);
+
+				for (var source of resources){
+					for (var spawn of spawns){
+					var path = PathFinder.search(source.pos, spawn.pos)
+						for (var i in path){
+							for (var spots in path[i]){
+								Game.rooms[room].createConstructionSite(path[i][spots], STRUCTURE_ROAD);
+							}
+						}
+					}
+				}
+				for (var spawn of spawns){
+					var path = PathFinder.search(spawn.pos, Game.rooms[room].controller.pos)
+					for (var i in path){
+						for (var spot in path[i]){
+							Game.rooms[room].createConstructionSite(path[i][spot], STRUCTURE_ROAD);
+						}
+					}
+				}
 			}
 		},
 
 	autoRoads: function(creep){
-		if (creep.pos.findInRange(STRUCTURE_ROAD,1) == true)
+		var road = creep.pos.findInRange(FIND_STRUCTURES, {
+			filter: (s) => ((s.structureType == STRUCTURE_ROAD) &&
+			s.energy < s.energyCapacity)
+		}, 1);
+		if (road.length > 0)
         	creep.pos.createConstructionSite(STRUCTURE_ROAD);
+        // else
+        //      creep.say("no build");
 	},
 };

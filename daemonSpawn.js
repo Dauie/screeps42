@@ -65,7 +65,11 @@ module.exports = {
 			creepLoadout = midPeaceCreeps;
 			minLoadout = creepsMinMid;
 		}
-
+		//designate a designer for roads.
+		if (this.hasDesigner('harvester') == false)
+			this.designateDesigner('harvester');
+		if (this.hasDesigner('upgrader') == false)
+			this.designateDesigner('upgrader');
 		//decide on which min needs to be used
 
 //		Debugging population
@@ -86,9 +90,9 @@ module.exports = {
 		else if (totalCreeps["fixers"] < minLoadout["fixers"] || currentAverages["fixers"] < percentLoadout["fixers"]){
 			Game.spawns.spawn.createCreep(creepLoadout["fixers"], undefined, {role: 'fixer', working: false});
 		}
-		else if (totalCreeps["scavengers"] < minLoadout["scavengers"] || currentAverages["scavengers"] < percentLoadout["scavengers"]){
-			Game.spawns.spawn.createCreep(creepLoadout["scavengers", undefined, {role: 'scavenger', working: false, homeRoom: undefined , targetRoom: undefined}])
-		}
+	//	else if (totalCreeps["scavengers"] < minLoadout["scavengers"] || currentAverages["scavengers"] < percentLoadout["scavengers"]){
+			//Game.spawns.spawn.createCreep(creepLoadout["scavengers", undefined, {role: 'scavenger', working: false, homeRoom: undefined , targetRoom: undefined}])
+		//}
 		else
 			Game.spawns.spawn.createCreep(creepLoadout["harvesters"], undefined, {role: 'harvester', designer: false, working: false});
 	},
@@ -101,11 +105,7 @@ module.exports = {
 			totalCreeps[i] = 0;
 		}
 
-		//designate a designer for roads.
-		if (this.hasDesigner('harvester') == false)
-			this.designateDesigner('harvester');
-		if (this.hasDesigner('upgrader') == false)
-			this.designateDesigner('upgrader');
+
 		
 		//count our creeps.
 		for(var i in Game.creeps) {
