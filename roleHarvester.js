@@ -11,12 +11,7 @@ module.exports = {
 		roleBase.decideWhatToDo(creep);
         if (creep.memory.working == true) {	
 			//debugging to get proper destination
-			var destination = [];
-			if (!(destination = roleBase.findSpawn(creep))){
-				if (!(destination = this.findExtension(creep))){
-					destination = this.findContainer(creep);
-				}
-			}
+			var destination = this.findReservoir(creep);	
 			if (response = creep.transfer(destination, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
 				creep.moveTo(destination)
 		}
@@ -43,6 +38,17 @@ module.exports = {
 			if (creep.harvest(source) == ERR_NOT_IN_RANGE)
             	    creep.moveTo(source);
 		}
+	},
+
+	findReservoir: function(creep){
+		var structures = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+			filter: (s) => ((s.structureType == STRUCTURE_EXTENSION 
+				|| s.structureType == STRUCTURE_CONTAINER 
+				|| s.structureType == STRUCTURE_SPAWN 
+				|| s.structureType == STRUCTURE_TOWER) &&
+				s.energy < s.energyCapacity)
+		});
+		return (structures)
 	},
 
 	findExtension: function(creep){

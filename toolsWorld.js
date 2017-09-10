@@ -45,11 +45,30 @@ module.exports = {
 		return (extensions.length);
 	},
 
-
 	getContainerAmount: function(room){
 		var containers = Game.rooms[room].find(FIND_MY_STRUCTURES, {
 			filter: {structureType: STRUCTURE_CONTAINER}
 		});
 		return (containers.length);		
 	},
+
+	//Use Game.rooms[room].name
+	getCreepsByRoom: function(room){
+		creeps = [];
+		for (var i in Game.creeps){
+			if (Game.creeps[i].pos.roomName == room){
+				creeps.push(Game.creeps[i]);
+			}	
+		}
+		return (creeps);
+	},
+
+	clearMemory: function(){
+		for(let i in Memory.creeps){
+			if (Game.creeps[i] == undefined){
+				delete Memory.creeps[i]
+			}
+		}
+	},
+
 };

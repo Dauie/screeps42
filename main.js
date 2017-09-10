@@ -8,22 +8,23 @@ var daemonSpawn = require('daemonSpawn');
 var roleFixer = require('roleFixer');
 var daemonConstruction = require('daemonConstruction');
 var daemonTurret = require('daemonTurret');
+var toolsWorld = require('toolsWorld');
 
 // Establish our gameloop
 module.exports.loop = function() {
-	
+
 	// Clear memory
-	for(let i in Memory.creeps){
-		if (Game.creeps[i] == undefined){
-			delete Memory.creeps[i]
-		}
-	}
+	toolsWorld.clearMemory();
 	
 	//If we have lost creeps, replenish them
-	if (Game.time % 2 == 0)
+	if (Game.time % 2 == 0){
 		daemonSpawn.run();
-	if (Game.time % 16000 == 0)
+	}
+	
+	//Rebuild our roads if they are destroyed.
+	if (Game.time % 2 == 0){
 		daemonConstruction.makeOptimalRoads();
+	}
 	daemonConstruction.autoExtension();
 	daemonTurret.run();
 	
